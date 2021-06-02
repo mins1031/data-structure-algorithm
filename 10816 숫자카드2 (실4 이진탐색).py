@@ -12,25 +12,70 @@ givencardnum = int(input())
 givencard = list(map(int,input().split(' ')))
 result = list()
 havecard.sort()
-givencard.sort()
+givencard
+def left(data,c,pivot):
+    if len(data) == 1 and data[0] == pivot:
+        return 1
+    else:
+        return 0
+    
+    result = 0
+    print(data)
+    print(c)
+    print(pivot)
+    if data[c] == pivot:
+        result += 1
+        temp = left(data,c-1,pivot)
+        result += temp
+        return result
+    else :
+        return result
+def right(data,c,pivot):
+    if len(data) == 1 and data[0] == pivot:
+        return 1
+    else:
+        return 0
+    
+    result = 0
+    if data[c] == pivot:
+        result += 1
+        temp = left(data,c+1,pivot)
+        result += temp
+        return result
+    else :
+        return result
 
-def twotam(pivot,data):
+def twotam(data,pivot):
+    print(data)
+    print(pivot)
+    
     if len(data) == 1 and pivot != data[0]:
         return 0
-    elif len(data) == 1 and pivot == data[0]:
+    if len(data) == 1 and pivot == data[0]:
         return 1
-    elif len(data) == 0:
+    if len(data) == 0:
         return 0
     
     half = len(data) // 2
+    count = 0
     if data[half] == pivot:
         count += 1
-        if data[half-1] 
+        if data[half-1] == pivot:
+            leftcard = left(data,half-1,pivot)
+            count += leftcard
+        if data[half+1] == pivot:
+            rightcard = right(data,half+1,pivot)
+            count += rightcard
+            
     elif data[half] < pivot:
         return twotam(data[half+1:],pivot)
-
+    elif data[half] > pivot:
+        return twotam(data[:half],pivot)
+    
+    return count
+    
 for i in range(givencardnum):
-    result.append(twotam(givencard[i],havecard))
+    result.append(twotam(havecard,givencard[i]))
 
 for i in range(len(reslut)):
     print(result[i])
