@@ -12,5 +12,5 @@ def get_point(games):
     return win_point
 
 results = [[3,4],[1,4],[4,1],[3,3],[2,1],[2,2],[2,3],[3,0],[0,0],[1,0]]
-# 0 + 0 + 3 + 1 + 3 + 1 + 0 + 3 + 1 + 3 = 15
+
 print(get_point(results))
