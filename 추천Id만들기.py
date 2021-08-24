@@ -57,7 +57,7 @@ def sol(new_id):
 new_id = "123_.def"
 print(sol(new_id))
 
-
+#앞으로 문자열로 거른느 문제는 무조건 정규표현식 적용
 
 
     
