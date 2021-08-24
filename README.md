@@ -74,7 +74,6 @@
   * key를 통해 바로 데이터를 받아올 수 있으므로 속도가 획기적으로 빨라짐 
   * 보통 배열로 미리 해쉬테이블 사이즈만큼 생성후에 사용
 
-
 ### 2) 알아둘 용어
 * 해쉬(Hash): 임의 값을 고정 길이로 변환하는 것
 * 해쉬 테이블(Hash Table): 키 값의 연산에 의해 직접 접근이 가능한 데이터 구조
@@ -83,3 +82,56 @@
 * 슬롯(Slot): 한 개의 데이터를 저장할 수 있는 공간
 <img src="https://www.fun-coding.org/00_Images/hash.png" width=400 />
 
+### 3) 해쉬 테이블의 장단점과 주요 용도
+* 장점
+  * 데이터 저장/일기 속도가 빠르다(검색속도가 빠르다)
+  * 해쉬는 키에대한 데이터가 있는지(중복)확인이 쉽다
+* 단점
+  * 일반적으로 저장공간이 좀더 많이 필요하다
+  * 여러 키에 해당하는 주소가 동일할 경우 충돌을 해결하기 위한 별도 자료구조가 필요하다   
+* 주요 용도
+  * 검색이 많이 필요한 경우
+  * 저장, 삭제, 읽기가 빈번한 경우
+  * 캐쉬 구현시(중복 확인이 쉽기 때문에) 
+### 4) 간단 구현
+* 다양한 해쉬함수 기법이 존재하지만 가장 간단한 나누기를 동한 방식을 구현했다.
+```
+hash_table = list([0 for i in range(8)])
+
+def get_key(data):
+    return hash(data) // 해시함수를 통해 해당 데이터의 키값을 추출
+
+def hash_function(key):
+    return key % 8  // 테이블의 크기가 8개기에 8개중 어디에 저장할지 정해준다.
+
+def save_data(data, value):
+    hash_address = hash_function(get_key(data))
+    hash_table[hash_address] = value
+    
+def read_data(data):
+    hash_address = hash_function(get_key(data))
+    return hash_table[hash_address]
+
+
+save_data('Dave', '0102030200')
+save_data('Andy', '01033232200')
+read_data('Dave')
+
+print(hash_table) => ['0102030200', 0, 0, 0, 0, 0, 0, '01033232200']
+```
+### 5) 충돌 해결 알고리즘
+> 해쉬 테이블의 가장 큰 문제는 여러데이터의 키값이 충돌하는 상황이다.이 문제를 충돌(Collision) 또는 해쉬충돌(Hash Collision) 이라고 한다
+
+1) Chaining 기법
+  * 개방 해슁 또는 Open Hashing 기법중 하나이다. 해쉬 테이블 저장공간 외의 공간을 활용하는 기법
+  * 충돌이 일어나면 충돌이 일어난 데이터들을 링크드 리스트를 사용해 데이터를 추가로 뒤에 연결시켜서 저장하는 기법
+2) Linear Probing 기법
+  * 폐쇄 해슁 또는 Close Hashing 기법중 하나이다. 해쉬 테이블 저장공간 안에서 충돌 문제를 해결하는 기법
+  * 충돌이 일어나면 해당 해쉬 주소의 다음 주소 부터 맨 처음 나오는 빈공간에 저장하는 기법
+    * 저장 공간 활용도를 높이기 위한 기법
+### 6) 시간 복잡도
+* 일반적인 경우(충돌이 없는 경우) O(1)
+* 최악의 경우(충돌이 모두 발생하는 경우) O(n)
+* 16개의 배열에 데이터를 저장후 검색시 -> O(n)
+* 16개의 데이터 저장공간을 가진 해쉬 테이블에 데이터를 저장후 검색시 -> O(1) : 데이터마다 키값을 만들고 저장하기에 데이터 검색시 해당데이터의 키값만 테이블에서 찾아주면 되기 때문이다.
+<img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fcmb93t%2FbtqITt7eR8A%2FmGgrbmF8XUo38BG1SiYLi1%2Fimg.png"/> 
