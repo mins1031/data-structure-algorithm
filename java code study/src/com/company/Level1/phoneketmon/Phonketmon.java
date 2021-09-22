@@ -25,5 +25,13 @@ public class Phonketmon {
 
         int solution = new Phonketmon().solution(num);
         System.out.println(solution);
+
+        int a = 14000;
+        int b = 5000;
+        double re = (double) b/a;
+
+        System.out.println(Math.floor(re * 100)/100.0);
+
+
     }
 }
